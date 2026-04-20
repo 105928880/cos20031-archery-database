@@ -1,0 +1,21 @@
+
+services:
+  phpmyadmin:
+    image: phpmyadmin:latest
+    depends_on:
+      - mariadb
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: "mariadb"
+
+  mariadb:
+    image: mariadb:latest
+    secrets:
+      - db-password
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: "/run/secrets/db-password"
+
+secrets:
+  db-password:
+    file: "./secrets/db-password"
